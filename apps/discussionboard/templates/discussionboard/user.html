@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>User Profile</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+</head>
+<body>
+	<div class="container">
+	<a href="/dashboard">Dashboard</a>
+	<a href="/logout">Logout</a>
+	<hr>
+	{% if current_user.id == user.id %}
+		<h3>You Posted...</h3>
+		<h5>{{topics.count}} Topics</h5>
+		<h5>{{comments.count}} Posts</h5>
+		<h5>{{ideas.count}} Comments</h5>
+	{% else %}
+		<h3>Username: {{user.first_name}}</h3>
+		<h4>Posted...</h4>
+		<h5>{{topics.count}} Topics</h5>
+		<h5>{{comments.count}} Posts</h5>
+		<h5>{{ideas.count}} Comments</h5>
+	{%endif%}
+	</div>
+</body>
+</html>

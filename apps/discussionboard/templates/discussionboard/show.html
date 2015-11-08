@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>Topic</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+</head>
+<body>
+	<div class="container">
+	<a href="/dashboard">Dashboard</a>
+	<a href="/logout">Logout</a>
+	<hr>
+		<a href="/users/{{topic.user.id}}/">{{topic.user.first_name}} </a>posted a topic:
+		<hr>
+		Topic: {{topic.topic}}
+		<br>
+		Description: {{topic.description}}
+		<hr>
+		<h3>Post your answer</h3>
+		<form action="/topic/{{topic.id}}/post" method="post"  style="width:300px; height:50px">
+			{%csrf_token%}
+			<textarea name="comment" id="" cols="20" rows="2" style="resize:none" required  minlength=5 maxlength=50 class="form-control"></textarea>
+			<input type="submit" value="Post" class="btn btn-success">
+		</form>
+		<br><br>
+		<hr>
+		
+		{% for comment in comments %}
+			<a href="/users/{{comment.user_id}}/">{{comment.user.first_name}}</a>: {{comment.comment}}
+			<br>
+				<h5>Number of upvotes: 
+					{% for upvote in upvotes %}
+						{% if upvote.comment_id == comment.id %}
+							{{upvote.comment.comment_upvote.count}}
+						{% endif %}
+					{%endfor%}
+					<a href="/upvote/{{comment.id}}/"><button class="btn btn-primary"><span class="glyphicon glyphicon-arrow-up"></span></button></a>
+				<h5>Number of downvotes:
+					{% for downvote in downvotes %}
+						{% if downvote.comment_id == comment.id %}
+							{{downvote.comment.comment_downvote.count}}
+						{%endif%}
+					{%endfor%}
+					<a href="/downvote/{{comment.id}}/"><button class="btn btn-danger"><span class="glyphicon glyphicon-arrow-down"></span></button></a>
+			<hr>
+			<form action="/idea/{{comment.id}}/" method="post" style="width:200px; height:50px">
+			{%csrf_token%}
+			<textarea name="idea" id="" cols="20" rows="2" required minlength=5 maxlength=50 style="resize:none" class="form-control"></textarea>
+			<input type="submit" value="Comment" class="btn btn-success">
+			</form>
+				{% for idea in ideas %}
+					{% if idea.comment_id == comment.id %}
+						<a href="/users/{{idea.user_id}}/">{{idea.user.first_name}}</a> 
+						says: {{idea.idea}}
+				{%endif%}
+			{%endfor%}
+		{%endfor%}
+	</div>
+</body>
+</html>

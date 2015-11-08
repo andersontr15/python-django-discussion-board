@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>User Dashboard</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container">
+	<a href="/logout">Logout</a></h4>
+	<a href="/users/{{user.id}}/">Your Profile</a>
+	<hr>
+	<h3>Welcome: {{user.first_name}} {{user.last_name}}</h3>
+	<hr>
+	<table class="table class table-bordered table-striped table-hovered table-condensed">
+		<thead>
+			<tr>
+				<th>Category:</th>
+				<th>Topic:</th>
+				<th>User Name:</th>
+				<th>Posts</th>
+				<th>Actions</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for topic in topics %}
+			<tr>
+				<td>{{topic.category}}</td>
+				<td><a href="/topic/{{topic.id}}/">{{topic.topic}}</a></td>
+				<td><a href="users/{{topic.user.id}}/">{{topic.user.first_name}} {{topic.user.last_name}}</a></td>
+				<td>{{topic.counter}}</td>
+				{% if current_user.id == topic.user_id %}
+					<td>
+					<a href="topics/{{topic.id}}/edit">Edit Topic</a> |
+					<a href="topic/{{topic.id}}/delete">Delete Topic</a></td>
+				{% else %}
+					<td>Cannot Delete</td>
+				{%endif%}
+			</tr>
+			{%endfor%}
+		</tbody>
+	</table>
+	<hr>
+	<h3>Add a new Topic:</h3>
+	<form action="/topic" method="post" class="form-control" style="width:300px; height:420px">
+		{%csrf_token%}
+		Topic:	<input type="text" name="topic" required minlength=5 maxlength=30 class="form-control">
+		Description:	<textarea name="description" id="" cols="30" rows="10" required minlength=5 maxlength=30 style="resize:none" class="form-control"></textarea>
+		Category:	<select name="category" id="" required class="form-control">
+			<option value="HTML">HTML</option>
+			<option value="PHP">PHP</option>
+			<option value="Python">Python</option>
+			<option value="Ruby">Ruby</option>
+			<option value="JavaScript">JavaScript</option>
+		</select>
+		<br>
+		<input type="submit" class="btn btn-success">
+	</form>
+</body>
+</html>

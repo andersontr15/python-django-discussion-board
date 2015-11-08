@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>Edit Topic {{topic.id}}</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+</head>
+<body>
+	<div class="container">
+		<h3>Edit Topic</h3>
+		<form action="/topics/{{topic.id}}/update" method="post" class="form-control" style="width:250px; height:230px">
+			{%csrf_token%}
+			Category:<input type="text" name="category" value="{{topic.category}}" class="form-control">
+			Topic:<input type="text" name="topic" value="{{topic.topic}}" class="form-control">
+			Description:<input type="description" name="description" value="{{topic.description}}" class="form-control">
+			<br>
+			<input type="submit" value="Update" class="btn btn-success">
+		</form>
+	</div>
+	
+</body>
+</html>
